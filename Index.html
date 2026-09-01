@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full bg-[#F7F5F2]">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VOKARA - Public Speaking Platform</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Manrope', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              DEFAULT: '#7A1E2C',
+              dark: '#5E1621',
+              light: '#9B2C3D',
+              surface: '#F7F5F2',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #1C1C1C;
+    }
+    .font-display {
+      font-family: 'Manrope', sans-serif;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F7F5F2;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1C1C1C20;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #7A1E2C80;
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col justify-between selection:bg-[#7A1E2C] selection:text-white">
+
+  <!-- NAVBAR -->
+  <nav class="sticky top-0 z-40 bg-[#F7F5F2]/90 backdrop-blur-md border-b border-[#1C1C1C]/10 px-6 py-4">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <div onclick="navigateToHome()" class="cursor-pointer flex items-center gap-2 group">
+        <span class="font-display text-2xl font-extrabold tracking-tight text-[#7A1E2C] group-hover:opacity-90 transition">
+          VOKARA
+        </span>
+        <span class="hidden sm:inline-block text-[10px] uppercase font-mono tracking-widest text-[#6B6B6B] border border-[#6B6B6B]/30 px-2 py-0.5 rounded-full">
+          PRO
+        </span>
+      </div>
+
+      <!-- Navigation Items for Logged Out vs Logged In -->
+      <div id="nav-links-logged-out" class="hidden md:flex items-center gap-8 text-sm font-medium text-[#1C1C1C]">
+        <a href="#how-it-works" class="hover:text-[#7A1E2C] transition">Cara Kerja</a>
+        <a href="#why-vokara" class="hover:text-[#7A1E2C] transition">Mengapa VOKARA</a>
+      </div>
+
+      <div id="nav-links-logged-in" class="hidden md:flex items-center gap-8 text-sm font-medium text-[#1C1C1C]">
+        <button onclick="switchView('dashboard')" id="nav-btn-dashboard" class="transition py-1 border-b-2 border-transparent hover:text-[#7A1E2C]">Dashboard</button>
+        <button onclick="startPracticeFlow()" id="nav-btn-practice" class="transition py-1 border-b-2 border-transparent hover:text-[#7A1E2C]">Mulai Latihan</button>
+        <button onclick="switchView('progress')" id="nav-btn-progress" class="transition py-1 border-b-2 border-transparent hover:text-[#7A1E2C]">Progress</button>
+        <button onclick="switchView('history')" id="nav-btn-history" class="transition py-1 border-b-2 border-transparent hover:text-[#7A1E2C]">Riwayat</button>
+        <button onclick="switchView('profile')" id="nav-btn-profile" class="transition py-1 border-b-2 border-transparent hover:text-[#7A1E2C]">Profil</button>
+      </div>
+
+      <!-- User Auth Controls -->
+      <div id="nav-auth-controls" class="flex items-center gap-4">
+        <!-- Dynamic via JS -->
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-grow">
+    
+    <!-- 1. LANDING VIEW -->
+    <section id="view-landing" class="view-section space-y-28 pb-20">
+      <div class="pt-20 md:pt-32 px-6 max-w-5xl mx-auto text-center space-y-8">
+        <div class="inline-flex items-center gap-2 bg-[#7A1E2C]/10 border border-[#7A1E2C]/20 px-4 py-1.5 rounded-full text-xs font-semibold text-[#7A1E2C]">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+          <span>Platform Latihan Public Speaking Spontan</span>
+        </div>
+        
+        <h1 class="font-display text-5xl md:text-7xl font-extrabold tracking-tight text-[#1C1C1C] leading-[1.08]">
+          Think Fast.<br />
+          <span class="text-[#7A1E2C]">Speak Clearly.</span>
+        </h1>
+
+        <p class="text-lg md:text-xl text-[#6B6B6B] max-w-2xl mx-auto font-normal leading-relaxed">
+          Latih kemampuan public speaking secara spontan, dapatkan feedback instan, dan bangun kepercayaan dirimu setiap kali berbicara.
+        </p>
+
+        <!-- Waveform Graphic -->
+        <div class="py-6 flex justify-center items-center gap-1.5 opacity-80">
+          <span class="w-1 h-4 bg-[#7A1E2C]/30 rounded-full animate-pulse"></span>
+          <span class="w-1 h-8 bg-[#7A1E2C]/60 rounded-full animate-pulse"></span>
+          <span class="w-1 h-14 bg-[#7A1E2C] rounded-full animate-pulse"></span>
+          <span class="w-1 h-6 bg-[#7A1E2C]/50 rounded-full animate-pulse"></span>
+          <span class="w-1 h-10 bg-[#7A1E2C]/80 rounded-full animate-pulse"></span>
+          <span class="w-1 h-3 bg-[#7A1E2C]/20 rounded-full"></span>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+          <button onclick="handleStartClick()" class="w-full sm:w-auto bg-[#7A1E2C] text-white text-base font-semibold px-8 py-4 rounded-full hover:bg-[#5E1621] transition shadow-lg shadow-[#7A1E2C]/20 flex items-center justify-center gap-3">
+            <span>MULAI LATIHAN</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </button>
+          <a href="#how-it-works" class="w-full sm:w-auto border border-[#1C1C1C]/20 text-[#1C1C1C] text-base font-semibold px-8 py-4 rounded-full hover:bg-[#1C1C1C]/5 transition">
+            CARA KERJA
+          </a>
+        </div>
+      </div>
+
+      <!-- How It Works -->
+      <section id="how-it-works" class="px-6 max-w-6xl mx-auto pt-10">
+        <div class="border-t border-[#1C1C1C]/10 pt-16 space-y-12">
+          <div class="text-center max-w-xl mx-auto space-y-3">
+            <span class="text-xs uppercase font-mono tracking-widest text-[#7A1E2C] font-semibold">Alur Efektif</span>
+            <h2 class="font-display text-3xl md:text-4xl font-bold">Bagaimana VOKARA Bekerja</h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="bg-white/60 border border-[#1C1C1C]/10 p-8 rounded-2xl flex flex-col justify-between hover:border-[#7A1E2C]/40 transition">
+              <div class="font-mono text-3xl font-bold text-[#7A1E2C] mb-6">01</div>
+              <div>
+                <h3 class="font-display text-lg font-bold mb-2">RANDOM</h3>
+                <p class="text-sm text-[#6B6B6B] leading-relaxed">Dapatkan topik acak dari 200+ kurasi tanpa skrip sebelumnya.</p>
+              </div>
+            </div>
+            <div class="bg-white/60 border border-[#1C1C1C]/10 p-8 rounded-2xl flex flex-col justify-between hover:border-[#7A1E2C]/40 transition">
+              <div class="font-mono text-3xl font-bold text-[#7A1E2C] mb-6">02</div>
+              <div>
+                <h3 class="font-display text-lg font-bold mb-2">THINK</h3>
+                <p class="text-sm text-[#6B6B6B] leading-relaxed">Gunakan waktu singkat 30 detik untuk menyusun alur pikiran utama.</p>
+              </div>
+            </div>
+            <div class="bg-white/60 border border-[#1C1C1C]/10 p-8 rounded-2xl flex flex-col justify-between hover:border-[#7A1E2C]/40 transition">
+              <div class="font-mono text-3xl font-bold text-[#7A1E2C] mb-6">03</div>
+              <div>
+                <h3 class="font-display text-lg font-bold mb-2">SPEAK</h3>
+                <p class="text-sm text-[#6B6B6B] leading-relaxed">Berbicara secara spontan tanpa membaca skrip sampai durasi selesai.</p>
+              </div>
+            </div>
+            <div class="bg-white/60 border border-[#1C1C1C]/10 p-8 rounded-2xl flex flex-col justify-between hover:border-[#7A1E2C]/40 transition">
+              <div class="font-mono text-3xl font-bold text-[#7A1E2C] mb-6">04</div>
+              <div>
+                <h3 class="font-display text-lg font-bold mb-2">IMPROVE</h3>
+                <p class="text-sm text-[#6B6B6B] leading-relaxed">Analisis kata pengisi (filler words), kelancaran, dan lihat kemajuanmu.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Why Vokara -->
+      <section id="why-vokara" class="px-6 max-w-6xl mx-auto">
+        <div class="bg-[#7A1E2C] text-white rounded-3xl p-10 md:p-16 space-y-12 shadow-xl">
+          <div class="max-w-xl space-y-4">
+            <span class="text-xs uppercase font-mono tracking-widest text-white/70 font-semibold">Mengapa VOKARA</span>
+            <h2 class="font-display text-3xl md:text-5xl font-bold leading-tight">
+              Bukan Sekadar Timer.<br />Ini Pelatih Spontanitasmu.
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-white/20 pt-10">
+            <div class="space-y-3">
+              <h3 class="font-display text-xl font-bold text-white">Speak More Naturally</h3>
+              <p class="text-white/80 text-sm leading-relaxed">Latih kemampuan berbicara secara alami tanpa bergantung pada hafalan atau script teks yang kaku.</p>
+            </div>
+            <div class="space-y-3">
+              <h3 class="font-display text-xl font-bold text-white">Think Faster</h3>
+              <p class="text-white/80 text-sm leading-relaxed">Latih otakmu untuk menyusun ide secara terstruktur dalam kurun waktu beberapa detik saja.</p>
+            </div>
+            <div class="space-y-3">
+              <h3 class="font-display text-xl font-bold text-white">Build Confidence</h3>
+              <p class="text-white/80 text-sm leading-relaxed">Bangun kepercayaan diri sejati melalui metrik perkembangan dan latihan yang konsisten.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- 2. AUTH VIEW -->
+    <section id="view-auth" class="view-section hidden min-h-[80vh] flex items-center justify-center px-6 py-12">
+      <div class="w-full max-w-md bg-white border border-[#1C1C1C]/10 rounded-3xl p-8 md:p-10 shadow-lg">
+        <div class="text-center mb-8 space-y-2">
+          <span class="font-display text-xl font-bold text-[#7A1E2C]">VOKARA</span>
+          <h2 id="auth-title" class="font-display text-2xl font-bold">MASUK AKUN</h2>
+          <p id="auth-subtitle" class="text-sm text-[#6B6B6B]">Masuk untuk melanjutkan latihan spontanmu.</p>
+        </div>
+
+        <div id="auth-error-alert" class="hidden mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span id="auth-error-text">Terjadi kesalahan.</span>
+        </div>
+
+        <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
+          <div id="field-name-container" class="hidden">
+            <label class="block text-xs font-semibold uppercase font-mono tracking-wider text-[#6B6B6B] mb-1.5">Nama Lengkap</label>
+            <input type="text" id="auth-name" placeholder="Nama Lengkap Anda" class="w-full px-4 py-3 rounded-xl border border-[#1C1C1C]/20 text-sm focus:outline-none focus:border-[#7A1E2C] transition">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase font-mono tracking-wider text-[#6B6B6B] mb-1.5">Email</label>
+            <input type="email" id="auth-email" required placeholder="email@domain.com" class="w-full px-4 py-3 rounded-xl border border-[#1C1C1C]/20 text-sm focus:outline-none focus:border-[#7A1E2C] transition">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase font-mono tracking-wider text-[#6B6B6B] mb-1.5">Password</label>
+            <input type="password" id="auth-password" required placeholder="••••••••" class="w-full px-4 py-3 rounded-xl border border-[#1C1C1C]/20 text-sm focus:outline-none focus:border-[#7A1E2C] transition">
+          </div>
+          <button type="submit" id="auth-submit-btn" class="w-full bg-[#7A1E2C] text-white text-sm font-semibold py-3.5 rounded-xl hover:bg-[#5E1621] transition mt-2">
+            MASUK
+          </button>
+        </form>
+
+        <div class="mt-6 pt-6 border-t border-[#1C1C1C]/10 text-center space-y-3">
+          <button onclick="handleGuestLogin()" class="w-full border border-[#1C1C1C]/20 text-xs font-semibold py-2.5 rounded-xl hover:bg-[#1C1C1C]/5 transition flex items-center justify-center gap-2">
+            <svg class="w-3.5 h-3.5 text-[#7A1E2C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span>Coba Langsung (Mode Tamu / Demo)</span>
+          </button>
+
+          <p class="text-xs text-[#6B6B6B]">
+            <span id="auth-switch-prompt">Belum punya akun?</span>
+            <button onclick="toggleAuthMode()" id="auth-switch-btn" class="text-[#7A1E2C] font-semibold hover:underline">Daftar di sini</button>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. DASHBOARD VIEW -->
+    <section id="view-dashboard" class="view-section hidden px-6 py-10 max-w-6xl mx-auto space-y-10">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-[#1C1C1C]/10">
+        <div class="space-y-1">
+          <h1 class="font-display text-3xl font-extrabold text-[#1C1C1C]" id="dash-greeting">
+            Selamat Datang, Pembicara.
+          </h1>
+          <p class="text-[#6B6B6B] text-base font-normal">
+            Kemampuan bicaramu semakin terasah setiap kali kamu mencoba.
+          </p>
+        </div>
+
+        <button onclick="startPracticeFlow()" class="bg-[#7A1E2C] text-white text-sm font-semibold px-6 py-3 rounded-full hover:bg-[#5E1621] transition shadow-md shadow-[#7A1E2C]/20 flex items-center justify-center gap-2 self-start md:self-auto">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <span>MULAI LATIHAN</span>
+        </button>
+      </div>
+
+      <!-- Dashboard Cards Matrix -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- CONFIDENCE SCORE CARD -->
+        <div class="bg-white border border-[#1C1C1C]/10 rounded-3xl p-8 flex flex-col justify-between space-y-6 shadow-sm">
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <span class="text-xs uppercase font-mono tracking-widest text-[#6B6B6B] font-semibold">YOUR CONFIDENCE</span>
+              <svg class="w-5 h-5 text-[#7A1E2C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <div class="space-y-3">
+              <div id="dash-conf-score" class="font-display text-6xl font-extrabold text-[#7A1E2C]">0%</div>
+              <p class="text-xs text-[#6B6B6B] leading-relaxed">
+                Kamu semakin nyaman berbicara secara spontan tanpa naskah.
+              </p>
+            </div>
+          </div>
+          <div class="text-[10px] text-[#6B6B6B] bg-[#F7F5F2] p-3 rounded-xl border border-[#1C1C1C]/5">
+            Confidence Score diukur otomatis berdasarkan kelancaran & frekuensi latihan.
+          </div>
+        </div>
+
+        <!-- GROWTH SUMMARY CARD -->
+        <div class="bg-white border border-[#1C1C1C]/10 rounded-3xl p-8 flex flex-col justify-between space-y-6 shadow-sm">
+          <div class="space-y-4">
+            <div class="flex justify-between items-center">
+              <span class="text-xs uppercase font-mono tracking-widest text-[#6B6B6B] font-semibold">YOUR GROWTH</span>
+              <svg class="w-5 h-5 text-[#7A1E2C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+            </div>
+            <div class="space-y-3 pt-2">
+              <div class="flex justify-between items-center text-sm">
+                <span class="text-[#6B6B6B]">Fluency</span>
+                <span id="dash-growth-fluency" class="font-semibold text-emerald-600 font-mono">+0%</span>
+              </div>
+              <div class="flex justify-between items-center text-sm">
+                <span class="text-[#6B6B6B]">Speaking Time</span>
+                <span id="dash-growth-time" class="font-semibold text-[#1C1C1C] font-mono">0 min</span>
+              </div>
+              <div class="flex justify-between items-center text-sm">
+                <span class="text-[#6B6B6B]">Total Sesi</span>
+                <span id="dash-growth-sessions" class="font-semibold text-[#7A1E2C] font-mono">0 Sesi</span>
+              </div>
+            </div>
+          </div>
+
+          <button onclick="switchView('progress')" class="text-xs font-semibold text-[#7A1E2C] hover:underline flex items-center gap-1">
+            <span>Lihat Detail Progress</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <!-- LEVEL & FOCUS CARD -->
+        <div class="bg-white border border-[#1C1C1C]/10 rounded-3xl p-8 flex flex-col justify-between space-y-6 shadow-sm">
+          <div class="space-y-6">
+            <div>
+              <span class="text-xs uppercase font-mono tracking-widest text-[#6B6B6B] font-semibold block mb-2">YOUR LEVEL</span>
+              <div id="dash-level" class="font-display text-xl font-bold text-[#7A1E2C]">Beginner Speaker</div>
+              <div class="w-full bg-[#F7F5F2] h-2 rounded-full mt-3 overflow-hidden border border-[#1C1C1C]/5">
+                <div id="dash-level-bar" class="bg-[#7A1E2C] h-full transition-all duration-500 rounded-full" style="width: 15%"></div>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-[#1C1C1C]/10">
+              <span class="text-xs uppercase font-mono tracking-widest text-[#6B6B6B] font-semibold block mb-2">YOUR FOCUS</span>
+              <h4 id="dash-focus-title" class="font-display text-sm font-bold text-[#1C1C1C]">Memulai Latihan Pertama</h4>
+              <p id="dash-focus-desc" class="text-xs text-[#6B6B6B] mt-1 leading-relaxed">
+                Latihan pertamamu akan membantu VOKARA menganalisis pola bicaramu.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Practice History Table -->
+      <div class="bg-white border border-[#1C1C1C]/10 rounded-3xl p-8 space-y-6 shadow-sm">
+        <div class="flex justify-between items-center">
+          <h3 class="font-display text-lg font-bold">Latihan Terakhir</h3>
+          <button onclick="switchView('history')" class="text-xs text-[#7A1E2C] font-semibold hover:underline">Lihat Semua</button>
+        </div>
+
+        <div id="dash-recent-list" class="divide-y divide-[#1C1C1C]/5">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. PRACTICE FLOW VIEW -->
+    <section id="view-practice" class="view-section hidden min-h-[85vh] flex items-center justify-center px-6 py-10">
+      
+      <!-- STEP 1: INTRO -->
+      <div id="practice-step-intro" class="practice-step w-full max-w-xl bg-white border border-[#1C1C1C]/10 rounded-3xl p-8 md:p-12 text-center space-y-8 shadow-md">
+        <div class="space-y-3">
+          <span class="text-xs uppercase font-mono tracking-widest text-[#7A1E2C] font-semibold">STEP 01</span>
+          <h2 class="font-display text-3xl md:text-4xl font-extrabold text-[#1C1C1C]">READY TO SPEAK?</h2>
+          <p class="text-[#6B6B6B] text-base leading-relaxed">
+            Kamu tidak akan mengetahui topik sampai acakan berhenti.<br />
+            <span class="font-medium text-[#1C1C1C]">Tanpa naskah. Tanpa persiapan awal. Hanya pikiranmu.</span>
+          </p>
+        </div>
+
+        <div class="pt-4">
+          <button onclick="startTopicShuffle()" class="w-full bg-[#7A1E2C] text-white text-base font-semibold py-4 rounded-full hover:bg-[#5E1621] transition shadow-lg shadow-[#7A1E2C]/20 flex items-center justify-center gap-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            <span>MULAI ACAK TOPIK</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2: SHUFFLING ANIMATION -->
+      <div id="practice-step-shuffling" class="practice-step hidden w-full max-w-xl bg-white border border-[#1C1C1C]/10 rounded-3xl p-12 md:p-16 text-center space-y-8 shadow-lg">
+        <span class="text-xs uppercase font-mono tracking-widest text-[#6B6B6B]">MENGACAK TOPIK...</span>
+        <div class="h-24 flex items-center justify-center overflow-hidden">
+          <div id="shuffle-text-display" class="font-display text-4xl md:text-5xl font-extrabold text-[#7A1E2C] tracking-tight transition-all duration-75">
+            KEGAGALAN
+          </div>
+        </div>
+        <div class="w-16 h-1 bg-[#7A1E2C]/20 rounded-full mx-auto overflow-hidden">
+          <div class="w-full h-full bg-[#7A1E2C] animate-pulse"></div>
+        </div>
+      </div>
+
+      <!-- STEP 3: TOPIC READY & THINKING TIMER -->
+      <div id="practice-step-topic-ready" class="practice-step hidden w-full max-w-xl bg-white border border-[#1C1C1C]/10 rounded-3xl p-8 md:p-12 text-center space-y-8 shadow-md">
+        <div class="space-y-2">
+          <span class="text-xs uppercase font-mono tracking-widest text-[#6B6B6B]">YOUR TOPIC</span>
+          <h2 id="current-topic-heading" class="font-display text-3xl md:text-4xl font-extrabold text-[#7A1E2C] uppercase tracking-tight py-2">
+            KEGAGALAN
+          </h2>
+          <p class="text-sm text-[#6B6B6B]">Berbicaralah berdasarkan ide dan pengalaman pribadimu.</p>
+        </div>
+
+        <button onclick="startThinkingTimer()" class="w-full bg-[#1C1C1C] text-white text-base font-semibold py-4 rounded-full hover:bg-black transition flex items-center justify-center gap-2">
+          <svg class="w-5 h-5 text-[#7A1E2C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span>MULAI WAKTU BERPIKIR (30 DETIK)</span>
+        </button>
+      </div>
+
+      <div id="practice-step-thinking" class="practice-step hidden w-full max-w-xl bg-white border border-[#1C1C1C]/10 rounded-3xl p-8 md:p-12 text-center space-y-8 shadow-md">
+        <div class="space-y-2">
+          <span class="text-xs uppercase font-mono tracking-widest text-[#7A1E2C] font-semibold">THINK</span>
+          <h2 class="font-display text-3xl font-bold">30 detik untuk menyusun pikiranmu.</h2>
+          <p class="text-sm text-[#6B6B6B]">Topik: <span id="thinking-topic-sub" class="font-bold text-[#1C1C1C]">...</span></p>
+        </div>
+
+        <div id="thinking-clock" class="font-mono text-6xl md:text-7xl font-extrabold text-[#7A1E2C] py-4">00:30</div>
+
+        <button onclick="skipThinkingTime()" class="text-xs text-[#6B6B6B] hover:text-[#1C1C1C] underline font-mono">
+          Lewati Waktu Berpikir →
+        </button>
+      </div>
+
+      <!-- STEP 4: DURATION SELECTION -->
+      <div id="practice-step-duration" class="practice-step hidden w-full max-w-xl bg-white border border-[#1C1C1C]/10 rounded-3xl p-8 md:p-12 text-center space-y-8 shadow-md">
+        <div class="space-y-2">
+          <span class="text-xs uppercase font-mono tracking-widest text-[#6B6B6B]">PILIH DURASI BICARA</span>
+          <h2 class="font-display text-2xl font-bold">Berapa lama kamu ingin berbicara?</h2>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <button onclick="startSpeakingSession(60)" class="border-2 border-[#1C1C1C]/10 hover:border-[#7A1E2C] hover:bg-[#7A1E2C]/5 p-5 rounded-2xl font-mono font-bold text-sm">1 MINUTE</button>
+          <button onclick="startSpeakingSession(120)" class="border-2 border-[#1C1C1C]/10 hover:border-[#7A1E2C] hover:bg-[#7A1E2C]/5 p-5 rounded-2xl font-mono font-bold text-sm">2 MINUTES</button>
+          <button onclick="startSpeakingSession(180)" class="border-2 border-[#1C1C1C]/10 hover:border-[#7A1E2C] hover:bg-[#7A1E2C]/5 p-5 rounded-2xl font-mono font-bold text-sm">3 MINUTES</button>
+          <button onclick="startSpeakingSession(300)" class="border-2 border-[#1C1C1C]/10 hover:border-[#7A1E2C] hover:bg-[#7A1E2C]/5 p-5 rounded-2xl font-mono font-bold text-sm">5 MINUTES</button>
+        </div>
+      </div>
+
+      <!-- STEP 5: ACTIVE SPEAKING SESSION -->
+      <div id="practice-step-speaking" class="practice-step hidden w-full max-w-2xl bg-white border border-[#1C1C1C]/10 rounded-3xl p-8 md:p-12 text-center space-y-8 shadow-xl">
+        <div id="mic-notice" class="hidden p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs">
+          Izinkan akses mikrofon peramban untuk visualisasi audio dan transkrip otomatis.
+        </div>
+
+        <div class="space-y-2">
+          <span class="text-xs uppercase font-mono tracking-widest text-[#6B6B6B]">TOPIC</span>
+          <h2 id="speaking-topic-display" class="font-display text-3xl md:text-4xl font-extrabold text-[#7A1E2C] uppercase">
+            TOPIK BICARA
+          </h2>
+        </div>
+
+        <div id="speaking-timer-clock" class="font-mono text-7xl md:text-8xl font-extrabold text-[#1C1C1C] tracking-tight">
+          03:00
+        </div>
+
+        <!-- Microphone Visualizer Waveform -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-center gap-2 text-xs font-mono">
+            <span id="mic-indicator-dot" class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+            <span id="mic-indicator-text" class="text-[#6B6B6B] uppercase font-semibold">● MIKROFON AKTIF</span>
+          </div>
+
+          <div id="waveform-bars" class="flex justify-center items-end gap-1.5 h-16 py-2">
+            <!-- 12 Wave Bars generated via JS -->
+          </div>
+        </div>
+
+        <!-- Live Metrics -->
+        <div class="grid grid-cols-2 gap-4 bg-[#F7F5F2] p-4 rounded-2xl border border-[#1C1C1C]/5 text-left">
+          <div>
+            <span class="text-[10px] font-mono uppercase text-[#6B6B6B] block">FILLER WORDS</span>
+            <span id="live-filler-count" class="font-mono font-bold text-lg text-[#7A1E2C]">0</span>
+          </div>
+          <div>
+            <span class="text-[10px] font-mono uppercase text-[#6B6B6B] block">THINKING MOMENTS</span>
+            <span id="live-thinking-moments" class="font-mono font-bold text-lg text-[#1C1C1C]">0</span>
+          </div>
+        </div>
+
+        <div class="flex justify-center items-center gap-4 pt-2">
+          <button onclick="togglePauseSpeaking()" id="pause-speaking-btn" class="flex-1 bg-[#1C1C1C]/5 border border-[#1C1C1C]/10 text-[#1C1C1C] text-sm font-semibold py-3.5 rounded-full transition flex items-center justify-center gap-2">
+            <span>PAUSE</span>
+          </button>
+
+          <button onclick="confirmFinishSpeaking()" class="flex-1 bg-[#7A1E2C] text-white text-sm font-semibold py-3.5 rounded-full hover:bg-[#5E1621] transition shadow-md shadow-[#7A1E2C]/20">
+            FINISH
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 6: EVALUATION & RESULTS -->
+      <div id="practice-step-results" class="practice-step hidden w-full max-w-2xl bg-white border border-[#1C1C1C]/10 rounded-3xl p-8 md:p-12 space-y-8 shadow-xl">
+        <div class="text-center space-y-2 border-b border-[#1C1C1C]/10 pb-6">
+          <span class="text-xs uppercase font-mono tracking-widest text-emerald-600 font-bold">GOOD WORK</span>
+          <h2 class="font-display text-3xl font-extrabold">Evaluasi Latihan Selesai</h2>
+          <p class="text-xs text-[#6B6B6B]">Topik: <span id="res-topic-title" class="font-bold text-[#1C1C1C]">...</span></p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div class="bg-[#F7F5F2] p-4 rounded-2xl border border-[#1C1C1C]/5">
+            <span class="text-[10px] font-mono uppercase text-[#6B6B6B] block mb-1">SPEAKING TIME</span>
+            <span id="res-speaking-time" class="font-mono text-xl font-bold">00:00</span>
+          </div>
+          <div class="bg-[#F7F5F2] p-4 rounded-2xl border border-[#1C1C1C]/5">
+            <span class="text-[10px] font-mono uppercase text-[#6B6B6B] block mb-1">FLUENCY</span>
+            <span id="res-fluency-score" class="font-mono text-xl font-bold text-[#7A1E2C]">0%</span>
+          </div>
+          <div class="bg-[#F7F5F2] p-4 rounded-2xl border border-[#1C1C1C]/5">
+            <span class="text-[10px] font-mono uppercase text-[#6B6B6B] block mb-1">FILLER WORDS</span>
+            <span id="res-filler-count" class="font-mono text-xl font-bold">0</span>
+          </div>
+          <div class="bg-[#F7F5F2] p-4 rounded-2xl border border-[#1C1C1C]/5">
+            <span class="text-[10px] font-mono uppercase text-[#6B6B6B] block mb-1">THINKING MOMENTS</span>
+            <span id="res-thinking-moments" class="font-mono text-xl font-bold">0</span>
+          </div>
+        </div>
+
+        <div class="bg-[#7A1E2C]/5 border border-[#7A1E2C]/20 p-6 rounded-2xl space-y-2">
+          <h4 class="font-display text-sm font-bold text-[#7A1E2C]">FEEDBACK & REKOMENDASI</h4>
+          <p id="res-feedback-text" class="text-xs text-[#1C1C1C] leading-relaxed">
+            Performa bicaramu sangat stabil! Pertahankan ritme dan terus latih kelancaran bicaramu.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <span class="text-xs font-mono font-semibold uppercase text-[#6B6B6B]">TRANSKRIP UCAPAN</span>
+          <div id="res-transcript" class="bg-[#F7F5F2] p-4 rounded-2xl border border-[#1C1C1C]/5 text-xs text-[#6B6B6B] max-h-36 overflow-y-auto leading-relaxed italic">
+            "(Tidak ada transkrip terdeteksi)"
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 pt-4">
+          <button onclick="startPracticeFlow()" class="flex-1 bg-[#7A1E2C] text-white text-sm font-semibold py-3.5 rounded-full hover:bg-[#5E1621] transition shadow-md shadow-[#7A1E2C]/20 text-center">
+            LATIHAN LAGI
+          </button>
+          <button onclick="switchView('dashboard')" class="flex-1 border border-[#1C1C1C]/20 text-[#1C1C1C] text-sm font-semibold py-3.5 rounded-full hover:bg-[#1C1C1C]/5 transition text-center">
+            KEMBALI KE DASHBOARD
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. PROGRESS VIEW -->
+    <section id="view-progress" class="view-section hidden px-6 py-10 max-w-5xl mx-auto space-y-10">
+      <div class="space-y-2">
+        <span class="text-xs uppercase font-mono tracking-widest text-[#7A1E2C] font-semibold">PERKEMBANGAN KAMU</span>
+        <h1 class="font-display text-3xl font-extrabold">YOUR PROGRESS</h1>
+        <p class="text-sm text-[#6B6B6B]">Pantau bagaimana kemampuan bicaramu berkembang dari waktu ke waktu.</p>
+      </div>
+
+      <div id="progress-container" class="space-y-8">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- 6. HISTORY VIEW -->
+    <section id="view-history" class="view-section hidden px-6 py-10 max-w-5xl mx-auto space-y-8">
+      <div class="space-y-2">
+        <span class="text-xs uppercase font-mono tracking-widest text-[#7A1E2C] font-semibold">RIWAYAT LATIHAN</span>
+        <h1 class="font-display text-3xl font-extrabold">PRACTICE HISTORY</h1>
+      </div>
+
+      <div id="history-container" class="bg-white border border-[#1C1C1C]/10 rounded-3xl p-6 shadow-sm">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- 7. PROFILE VIEW -->
+    <section id="view-profile" class="view-section hidden px-6 py-10 max-w-4xl mx-auto space-y-10">
+      <div class="space-y-2">
+        <span class="text-xs uppercase font-mono tracking-widest text-[#7A1E2C] font-semibold">PROFIL PEMBICARA</span>
+        <h1 class="font-display text-3xl font-extrabold">YOUR PROFILE</h1>
+      </div>
+
+      <div class="bg-white border border-[#1C1C1C]/10 rounded-3xl p-8 space-y-8 shadow-sm">
+        <div class="flex items-center gap-6 pb-6 border-b border-[#1C1C1C]/10">
+          <div id="prof-avatar" class="w-16 h-16 rounded-full bg-[#7A1E2C] text-white flex items-center justify-center font-display text-2xl font-bold">
+            V
+          </div>
+          <div>
+            <h2 id="prof-name" class="font-display text-xl font-bold">Pembicara VOKARA</h2>
+            <p id="prof-email" class="text-xs text-[#6B6B6B] font-mono">user@vokara.com</p>
+            <span id="prof-level-badge" class="inline-block mt-2 bg-[#7A1E2C]/10 text-[#7A1E2C] text-[10px] font-mono font-bold px-3 py-1 rounded-full">
+              Beginner Speaker
+            </span>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="font-display text-sm font-bold uppercase tracking-wider text-[#6B6B6B]">CONFIDENCE JOURNEY</h3>
+          <div id="prof-journey-steps" class="grid grid-cols-2 md:grid-cols-5 gap-3 text-center">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-[#1C1C1C]/10">
+          <div>
+            <span class="text-[10px] uppercase font-mono text-[#6B6B6B]">CONFIDENCE SCORE</span>
+            <div id="prof-conf-score" class="font-mono text-xl font-bold text-[#7A1E2C]">0%</div>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-mono text-[#6B6B6B]">TOTAL PRACTICES</span>
+            <div id="prof-total-practices" class="font-mono text-xl font-bold">0</div>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-mono text-[#6B6B6B]">SPEAKING TIME</span>
+            <div id="prof-total-time" class="font-mono text-xl font-bold">0 min</div>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-mono text-[#6B6B6B]">LEVEL</span>
+            <div id="prof-level-title" class="font-mono text-xs font-bold text-[#1C1C1C] truncate">Beginner Speaker</div>
+          </div>
+        </div>
+
+        <div class="pt-6 border-t border-[#1C1C1C]/10">
+          <button onclick="handleLogout()" class="bg-red-50 text-red-700 hover:bg-red-100 text-xs font-semibold px-6 py-3 rounded-full transition flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+            <span>LOGOUT ACCOUNT</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL DETAIL SEEN FROM HISTORY -->
+  <div id="modal-detail" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center px-6 py-10">
+    <div class="bg-white border border-[#1C1C1C]/10 rounded-3xl p-8 max-w-lg w-full space-y-6 shadow-2xl">
+      <div class="flex justify-between items-start border-b border-[#1C1C1C]/10 pb-4">
+        <div>
+          <span class="text-[10px] font-mono uppercase text-[#7A1E2C] font-bold">DETAIL SESI LATIHAN</span>
+          <h3 id="modal-topic" class="font-display text-xl font-extrabold">TOPIK</h3>
+        </div>
+        <button onclick="closeModalDetail()" class="text-[#6B6B6B] hover:text-[#1C1C1C]">✕</button>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 text-center">
+        <div class="bg-[#F7F5F2] p-3 rounded-xl">
+          <span class="text-[10px] font-mono text-[#6B6B6B] block">FLUENCY</span>
+          <span id="modal-fluency" class="font-mono text-lg font-bold text-[#7A1E2C]">0%</span>
+        </div>
+        <div class="bg-[#F7F5F2] p-3 rounded-xl">
+          <span class="text-[10px] font-mono text-[#6B6B6B] block">SPEAKING TIME</span>
+          <span id="modal-duration" class="font-mono text-lg font-bold">00:00</span>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <span class="text-xs font-mono font-semibold text-[#6B6B6B]">TRANSKRIP</span>
+        <p id="modal-transcript" class="text-xs text-[#1C1C1C] italic bg-[#F7F5F2] p-4 rounded-xl leading-relaxed">
+          "..."
+        </p>
+      </div>
+
+      <button onclick="closeModalDetail()" class="w-full bg-[#1C1C1C] text-white text-xs font-semibold py-3 rounded-full hover:bg-black transition">
+        TUTUP
+      </button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-[#1C1C1C]/10 py-8 px-6 text-center text-xs text-[#6B6B6B] space-y-2 bg-[#F7F5F2]">
+    <div class="font-display font-bold text-[#7A1E2C]">VOKARA</div>
+    <p>Think Fast. Speak Clearly. Become More Confident.</p>
+    <p class="text-[10px] font-mono opacity-60">© 2026 VOKARA Platform Public Speaking. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // --- 200+ TOPICS DATABASE ---
+    const TOPICS_DATABASE = [
+      "Kegagalan", "Kesuksesan", "Keberanian", "Kebahagiaan", "Kepercayaan Diri", "Masa Depan", "Waktu", "Pendidikan",
+      "Sekolah", "Keluarga", "Persahabatan", "Teknologi", "Kecerdasan Buatan (AI)", "Media Sosial", "Internet", "Smartphone",
+      "Lingkungan Hidup", "Bisnis & Kewirausahaan", "Kepemimpinan", "Kreativitas", "Keuangan & Uang", "Pekerjaan Impian", "Impian & Ambisi",
+      "Perubahan Hidup", "Perjalanan & Traveling", "Olahraga & Kesehatan", "Buku Favorit", "Pengaruh Musik", "Kesehatan Mental", "Disiplin Diri",
+      "Konsistensi", "Satu Hari Tanpa Internet", "Dunia Tanpa Smartphone", "Jika Saya Menjadi Presiden", "Jika Saya Bisa Mengubah Masa Lalu",
+      "Seseorang yang Menginspirasi Saya", "Hal yang Paling Saya Takuti", "Hal yang Ingin Saya Ubah dari Diri Saya", "Jika Saya Mendapat Kesempatan Kedua",
+      "Dunia Tanpa Uang", "Jika Semua Orang Bisa Membaca Pikiran", "Manajemen Waktu di Era Digital", "Pentingnya Berkata Tidak", "Pelajaran Terbaik dari Kesalahan",
+      "Apakah Kebahagiaan Adalah Pilihan?", "Mengapa Kita Takut Menghadapi Kritik?", "Arti Sebuah Kejujuran", "Nilai Dari Sebuah Kerja Hard Work vs Smart Work",
+      "Menjaga Hubungan Baik di Tengah Kesibukan", "Inovasi yang Mengubah Dunia", "Pentingnya Literasi Finansial Sejak Dini", "Etika dalam Berkomunikasi",
+      "Cara Mengatasi Burnout", "Pengaruh Globalisasi terhadap Budaya Lokal", "Seni Mendengarkan Aktif", "Apakah Pendidikan Formal Masih Relevan?",
+      "Tantangan Generasi Muda Saat Ini", "Pentingnya Beradaptasi dengan Perubahan", "Karakter Pemimpin Masa Depan", "Dampak Pola Hidup Minimalis",
+      "Menemukan Passion dalam Hidup", "Pentingnya Kesehatan Fisik untuk Produktivitas", "Makna Kesuksesan yang Sebenarnya", "Bagaimana Membangun Kebiasaan Baik",
+      "Mengatasi Imposter Syndrome", "Buku yang Mengubah Cara Pandang Saya", "Keindahan Kebudayaan Nusantara", "Dampak Positif dan Negatif AI"
+    ];
+
+    // --- FILLER WORDS PATTERNS ---
+    const FILLER_PATTERNS = [
+      { pattern: /\b(e+|e+h+|e+m+|e+m+m+)\b/gi, label: 'Ee / Emm' },
+      { pattern: /\b(h+m+m+|h+m+)\b/gi, label: 'Hmm' },
+      { pattern: /\b(anu)\b/gi, label: 'Anu' },
+      { pattern: /\b(apa\s+namanya)\b/gi, label: 'Apa namanya' },
+      { pattern: /\b(kayak|kayaknya)\b/gi, label: 'Kayak' },
+      { pattern: /\b(ya|ya+k)\b/gi, label: 'Ya / Yak' },
+      { pattern: /\b(like|um|uh)\b/gi, label: 'Um / Uh / Like' }
+    ];
+
+    // --- APPLICATION STATE ---
+    let currentUser = JSON.parse(localStorage.getItem('vokara_user')) || null;
+    let authMode = 'login'; // 'login' | 'register'
+    let practices = JSON.parse(localStorage.getItem('vokara_practices')) || [];
+    let usedTopics = [];
+
+    // Active session state variables
+    let currentTopic = '';
+    let thinkingTimeLeft = 30;
+    let thinkingTimerId = null;
+    let targetSpeakingSec = 180;
+    let speakingTimeLeft = 180;
+    let speakingTimerId = null;
+    let isSpeakingPaused = false;
+    let totalFillerCount = 0;
+    let thinkingMoments = 0;
+    let liveTranscript = '';
+
+    // Hardware Audio & Speech Recognition Refs
+    let audioCtx = null;
+    let analyser = null;
+    let micStream = null;
+    let animFrameId = null;
+    let speechRecognition = null;
+    let lastSpeechTimestamp = Date.now();
+
+    window.onload = function() {
+      setupWaveformBars();
+      renderAuthNavControls();
+
+      if (currentUser) {
+        switchView('dashboard');
+      } else {
+        switchView('landing');
+      }
+    };
+
+    function navigateToHome() {
+      if (currentUser) {
+        switchView('dashboard');
+      } else {
+        switchView('landing');
+      }
+    }
+
+    function switchView(viewName) {
+      const views = document.querySelectorAll('.view-section');
+      views.forEach(v => v.classList.add('hidden'));
+
+      const target = document.getElementById(`view-${viewName}`);
+      if (target) {
+        target.classList.remove('hidden');
+      }
+
+      // Update Nav active states
+      const navBtns = ['dashboard', 'practice', 'progress', 'history', 'profile'];
+      navBtns.forEach(name => {
+        const btn = document.getElementById(`nav-btn-${name}`);
+        if (btn) {
+          if (name === viewName) {
+            btn.className = 'transition py-1 border-b-2 border-[#7A1E2C] text-[#7A1E2C] font-semibold';
+          } else {
+            btn.className = 'transition py-1 border-b-2 border-transparent hover:text-[#7A1E2C]';
+          }
+        }
+      });
+
+      // Refresh view data when opening
+      if (viewName === 'dashboard') renderDashboard();
+      if (viewName === 'progress') renderProgress();
+      if (viewName === 'history') renderHistory();
+      if (viewName === 'profile') renderProfile();
+    }
+
+    function renderAuthNavControls() {
+      const loggedOutNav = document.getElementById('nav-links-logged-out');
+      const loggedInNav = document.getElementById('nav-links-logged-in');
+      const container = document.getElementById('nav-auth-controls');
+
+      if (currentUser) {
+        loggedOutNav.classList.add('hidden');
+        loggedInNav.classList.remove('hidden');
+
+        container.innerHTML = `
+          <div class="flex items-center gap-3">
+            <button onclick="switchView('profile')" class="flex items-center gap-2 bg-[#1C1C1C]/5 hover:bg-[#1C1C1C]/10 px-3.5 py-1.5 rounded-full transition text-xs font-semibold">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span>${currentUser.name}</span>
+            </button>
+            <button onclick="handleLogout()" title="Keluar" class="text-[#6B6B6B] hover:text-[#7A1E2C] transition p-1.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+            </button>
+          </div>
+        `;
+      } else {
+        loggedOutNav.classList.remove('hidden');
+        loggedInNav.classList.add('hidden');
+
+        container.innerHTML = `
+          <button onclick="openAuth('login')" class="text-sm font-medium text-[#1C1C1C] hover:text-[#7A1E2C] transition">Masuk</button>
+          <button onclick="openAuth('register')" class="bg-[#7A1E2C] text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[#5E1621] transition shadow-sm">Mulai Latihan</button>
+        `;
+      }
+    }
+
+    function handleStartClick() {
+      if (currentUser) {
+        startPracticeFlow();
+      } else {
+        openAuth('register');
+      }
+    }
+
+    function openAuth(mode) {
+      authMode = mode;
+      updateAuthUI();
+      switchView('auth');
+    }
+
+    function toggleAuthMode() {
+      authMode = authMode === 'login' ? 'register' : 'login';
+      updateAuthUI();
+    }
+
+    function updateAuthUI() {
+      const title = document.getElementById('auth-title');
+      const subtitle = document.getElementById('auth-subtitle');
+      const nameContainer = document.getElementById('field-name-container');
+      const submitBtn = document.getElementById('auth-submit-btn');
+      const switchPrompt = document.getElementById('auth-switch-prompt');
+      const switchBtn = document.getElementById('auth-switch-btn');
+      const errAlert = document.getElementById('auth-error-alert');
+
+      errAlert.classList.add('hidden');
+
+      if (authMode === 'register') {
+        title.innerText = 'CREATE YOUR ACCOUNT';
+        subtitle.innerText = 'Mulai perjalanan meningkatkan kepercayaan diri bicaramu.';
+        nameContainer.classList.remove('hidden');
+        submitBtn.innerText = 'CREATE ACCOUNT';
+        switchPrompt.innerText = 'Sudah punya akun?';
+        switchBtn.innerText = 'Masuk di sini';
+      } else {
+        title.innerText = 'WELCOME BACK';
+        subtitle.innerText = 'Masuk untuk melanjutkan latihan spontanmu.';
+        nameContainer.classList.add('hidden');
+        submitBtn.innerText = 'MASUK';
+        switchPrompt.innerText = 'Belum punya akun?';
+        switchBtn.innerText = 'Daftar di sini';
+      }
+    }
+
+    function handleAuthSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('auth-email').value.trim();
+      const password = document.getElementById('auth-password').value;
+      const name = document.getElementById('auth-name').value.trim() || email.split('@')[0];
+
+      if (authMode === 'register' && !name) {
+        return showAuthError('Nama lengkap wajib diisi.');
+      }
+
+      currentUser = {
+        name: name,
+        email: email,
+        created_at: new Date().toISOString()
+      };
+
+      localStorage.setItem('vokara_user', JSON.stringify(currentUser));
+      renderAuthNavControls();
+      switchView('dashboard');
+    }
+
+    function handleGuestLogin() {
+      currentUser = {
+        name: 'Tamu VOKARA',
+        email: 'guest@vokara.com',
+        created_at: new Date().toISOString()
+      };
+      localStorage.setItem('vokara_user', JSON.stringify(currentUser));
+      renderAuthNavControls();
+      switchView('dashboard');
+    }
+
+    function handleLogout() {
+      currentUser = null;
+      localStorage.removeItem('vokara_user');
+      renderAuthNavControls();
+      switchView('landing');
+    }
+
+    function showAuthError(msg) {
+      const errAlert = document.getElementById('auth-error-alert');
+      const errText = document.getElementById('auth-error-text');
+      errText.innerText = msg;
+      errAlert.classList.remove('hidden');
+    }
+
+    function renderDashboard() {
+      if (!currentUser) return;
+      document.getElementById('dash-greeting').innerText = `Selamat Datang, ${currentUser.name}.`;
+
+      const confScore = calculateConfidenceScore();
+      document.getElementById('dash-conf-score').innerText = `${confScore}%`;
+
+      const totalSec = practices.reduce((acc, p) => acc + (p.actual_duration || 0), 0);
+      document.getElementById('dash-[#dash-growth-time]' || 'dash-growth-time').innerText = formatTotalTime(totalSec);
+      document.getElementById('dash-growth-sessions').innerText = `${practices.length} Sesi`;
+
+      const level = calculateLevel(practices.length);
+      document.getElementById('dash-level').innerText = level;
+      document.getElementById('dash-level-bar').style.width = `${Math.min(100, Math.max(15, (practices.length / 30) * 100))}%`;
+
+      // Render recent practice list
+      const listContainer = document.getElementById('dash-recent-list');
+      if (practices.length === 0) {
+        listContainer.innerHTML = `
+          <div class="text-center py-8 space-y-2">
+            <p class="text-sm text-[#6B6B6B]">Belum ada latihan tersimpan. Mulai latihan pertamamu!</p>
+          </div>
+        `;
+      } else {
+        listContainer.innerHTML = practices.slice(0, 4).map((p, i) => `
+          <div onclick="openModalDetail(${i})" class="py-4 flex items-center justify-between hover:bg-[#F7F5F2]/50 px-3 rounded-xl transition cursor-pointer">
+            <div class="space-y-1">
+              <h4 class="font-display font-semibold text-sm text-[#1C1C1C]">${p.topic}</h4>
+              <div class="text-xs text-[#6B6B6B] flex items-center gap-3">
+                <span>${new Date(p.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                <span>•</span>
+                <span>${formatTime(p.actual_duration)}</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <span class="text-sm font-bold font-mono text-[#7A1E2C]">${p.fluency_score}% Fluency</span>
+              <svg class="w-4 h-4 text-[#6B6B6B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function calculateConfidenceScore() {
+      if (practices.length === 0) return 0;
+      const avgFluency = practices.reduce((a, b) => a + (b.fluency_score || 0), 0) / practices.length;
+      const consistency = Math.min(100, (practices.length / 20) * 100);
+      const totalSec = practices.reduce((a, b) => a + (b.actual_duration || 0), 0);
+      const durationScore = Math.min(100, (totalSec / 1800) * 100);
+
+      const score = Math.round((avgFluency * 0.5) + (consistency * 0.3) + (durationScore * 0.2));
+      return Math.min(99, Math.max(10, score));
+    }
+
+    function calculateLevel(count) {
+      if (count < 5) return 'Beginner Speaker';
+      if (count < 15) return 'Growing Speaker';
+      if (count < 30) return 'Confident Speaker';
+      return 'Master Speaker';
+    }
+
+    function startPracticeFlow() {
+      switchView('practice');
+      showPracticeStep('intro');
+    }
+
+    function showPracticeStep(stepName) {
+      const steps = document.querySelectorAll('.practice-step');
+      steps.forEach(s => s.classList.add('hidden'));
+
+      const target = document.getElementById(`practice-step-${stepName}`);
+      if (target) target.classList.remove('hidden');
+    }
+
+    function startTopicShuffle() {
+      showPracticeStep('shuffling');
+      let counter = 0;
+      const totalTicks = 25;
+      const shuffleDisplay = document.getElementById('shuffle-text-display');
+
+      const unused = TOPICS_DATABASE.filter(t => !usedTopics.includes(t));
+      const pool = unused.length > 0 ? unused : TOPICS_DATABASE;
+      const selected = pool[Math.floor(Math.random() * pool.length)];
+
+      const interval = setInterval(() => {
+        counter++;
+        const randItem = TOPICS_DATABASE[Math.floor(Math.random() * TOPICS_DATABASE.length)];
+        shuffleDisplay.innerText = randItem.toUpperCase();
+
+        if (counter >= totalTicks) {
+          clearInterval(interval);
+          currentTopic = selected;
+          document.getElementById('current-topic-heading').innerText = selected;
+          document.getElementById('thinking-topic-sub').innerText = selected;
+          document.getElementById('speaking-topic-display').innerText = selected;
+          
+          setTimeout(() => {
+            showPracticeStep('topic-ready');
+          }, 400);
+        }
+      }, 70);
+    }
+
+    function startThinkingTimer() {
+      showPracticeStep('thinking');
+      thinkingTimeLeft = 30;
+      updateThinkingClock();
+
+      if (thinkingTimerId) clearInterval(thinkingTimerId);
+      thinkingTimerId = setInterval(() => {
+        thinkingTimeLeft--;
+        updateThinkingClock();
+
+        if (thinkingTimeLeft <= 0) {
+          clearInterval(thinkingTimerId);
+          showPracticeStep('duration');
+        }
+      }, 1000);
+    }
+
+    function skipThinkingTime() {
+      if (thinkingTimerId) clearInterval(thinkingTimerId);
+      showPracticeStep('duration');
+    }
+
+    function updateThinkingClock() {
+      document.getElementById('thinking-clock').innerText = `00:${thinkingTimeLeft.toString().padStart(2, '0')}`;
+    }
+
+    function setupWaveformBars() {
+      const container = document.getElementById('waveform-bars');
+      container.innerHTML = '';
+      for (let i = 0; i < 12; i++) {
+        const bar = document.createElement('div');
+        bar.className = 'w-2 bg-[#7A1E2C] rounded-full transition-all duration-75';
+        bar.style.height = '10px';
+        bar.id = `wave-bar-${i}`;
+        container.appendChild(bar);
+      }
+    }
+
+    async function startSpeakingSession(chosenDurationSec) {
+      targetSpeakingSec = chosenDurationSec;
+      speakingTimeLeft = chosenDurationSec;
+      isSpeakingPaused = false;
+      totalFillerCount = 0;
+      thinkingMoments = 0;
+      liveTranscript = '';
+
+      document.getElementById('live-filler-count').innerText = '0';
+      document.getElementById('live-thinking-moments').innerText = '0';
+      document.getElementById('speaking-timer-clock').innerText = formatTime(speakingTimeLeft);
+
+      showPracticeStep('speaking');
+
+      // Initialize Microhone & Audio Context
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        micStream = stream;
+
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioCtx();
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 64;
+
+        const source = audioCtx.createMediaStreamSource(stream);
+        source.connect(analyser);
+
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+
+        const updateAudioLevel = () => {
+          if (!analyser) return;
+          analyser.getByteFrequencyData(dataArray);
+          let sum = 0;
+          for (let i = 0; i < bufferLength; i++) sum += dataArray[i];
+          const avg = sum / bufferLength;
+
+          // Animate waveform bars
+          for (let i = 0; i < 12; i++) {
+            const bar = document.getElementById(`wave-bar-${i}`);
+            if (bar) {
+              const h = !isSpeakingPaused ? Math.max(8, Math.min(60, (avg / 128) * (15 + (i % 5) * 10))) : 8;
+              bar.style.height = `${h}px`;
+            }
+          }
+
+          // Silence Detector for Thinking Moments
+          if (avg > 15) {
+            lastSpeechTimestamp = Date.now();
+          } else {
+            if (Date.now() - lastSpeechTimestamp > 4000 && Date.now() - lastSpeechTimestamp < 4500) {
+              thinkingMoments++;
+              document.getElementById('live-thinking-moments').innerText = thinkingMoments;
+              lastSpeechTimestamp = Date.now();
+            }
+          }
+
+          animFrameId = requestAnimationFrame(updateAudioLevel);
+        };
+        updateAudioLevel();
+
+      } catch (err) {
+        document.getElementById('mic-notice').classList.remove('hidden');
+      }
+
+      // Initialize Web Speech Recognition
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        speechRecognition = new SpeechRecognition();
+        speechRecognition.continuous = true;
+        speechRecognition.interimResults = true;
+        speechRecognition.lang = 'id-ID';
+
+        speechRecognition.onresult = (e) => {
+          let text = '';
+          for (let i = 0; i < e.results.length; i++) {
+            text += e.results[i][0].transcript + ' ';
+          }
+          liveTranscript = text;
+          analyzeFillerWords(text);
+        };
+
+        try { speechRecognition.start(); } catch(e){}
+      }
+
+      // Start Speaking Countdown
+      if (speakingTimerId) clearInterval(speakingTimerId);
+      speakingTimerId = setInterval(() => {
+        if (!isSpeakingPaused) {
+          speakingTimeLeft--;
+          document.getElementById('speaking-timer-clock').innerText = formatTime(speakingTimeLeft);
+
+          if (speakingTimeLeft <= 0) {
+            finishSpeakingSession();
+          }
+        }
+      }, 1000);
+    }
+
+    function analyzeFillerWords(text) {
+      let total = 0;
+      FILLER_PATTERNS.forEach(({ pattern }) => {
+        const matches = text.match(pattern);
+        if (matches) total += matches.length;
+      });
+      totalFillerCount = total;
+      document.getElementById('live-filler-count').innerText = totalFillerCount;
+    }
+
+    function togglePauseSpeaking() {
+      isSpeakingPaused = !isSpeakingPaused;
+      const btn = document.getElementById('pause-speaking-btn');
+      btn.innerHTML = isSpeakingPaused ? '<span>CONTINUE</span>' : '<span>PAUSE</span>';
+    }
+
+    function confirmFinishSpeaking() {
+      finishSpeakingSession();
+    }
+
+    function cleanupAudioHardware() {
+      if (speakingTimerId) clearInterval(speakingTimerId);
+      if (thinkingTimerId) clearInterval(thinkingTimerId);
+      if (animFrameId) cancelAnimationFrame(animFrameId);
+
+      if (speechRecognition) {
+        try { speechRecognition.stop(); } catch(e){}
+      }
+      if (micStream) {
+        micStream.getTracks().forEach(t => t.stop());
+      }
+      if (audioCtx) {
+        audioCtx.close();
+      }
+    }
+
+    function finishSpeakingSession() {
+      cleanupAudioHardware();
+
+      const actualDuration = targetSpeakingSec - speakingTimeLeft;
+      const durationPct = Math.min(100, (actualDuration / targetSpeakingSec) * 100);
+      
+      const fillerPenalty = Math.min(40, totalFillerCount * 3);
+      const thinkingPenalty = Math.min(20, thinkingMoments * 4);
+      const baseFluency = Math.max(30, Math.round(100 - fillerPenalty - thinkingPenalty));
+      const fluencyScore = Math.round((baseFluency * 0.7) + (durationPct * 0.3));
+
+      const newSession = {
+        topic: currentTopic,
+        target_duration: targetSpeakingSec,
+        actual_duration: actualDuration > 0 ? actualDuration : targetSpeakingSec,
+        fluency_score: fluencyScore,
+        filler_words: totalFillerCount,
+        thinking_moments: thinkingMoments,
+        transcript: liveTranscript || '(Tidak ada transkrip terdeteksi)',
+        created_at: new Date().toISOString()
+      };
+
+      practices.unshift(newSession);
+      usedTopics.push(currentTopic);
+      localStorage.setItem('vokara_practices', JSON.stringify(practices));
+
+      // Display Results
+      document.getElementById('res-topic-title').innerText = currentTopic;
+      document.getElementById('res-speaking-time').innerText = formatTime(newSession.actual_duration);
+      document.getElementById('res-fluency-score').innerText = `${fluencyScore}%`;
+      document.getElementById('res-filler-count').innerText = totalFillerCount;
+      document.getElementById('res-thinking-moments').innerText = thinkingMoments;
+      document.getElementById('res-transcript').innerText = `"${newSession.transcript}"`;
+
+      let feedback = `Kamu berhasil berbicara selama ${formatTime(newSession.actual_duration)}.`;
+      if (totalFillerCount > 5) {
+        feedback += ` Cobalah mengurangi jeda kata pengisi seperti "ee" atau "emm" dengan menggantinya sejenak dengan jeda hening.`;
+      } else {
+        feedback += ` Alur bicaramu sudah cukup terstruktur dan lancar!`;
+      }
+      document.getElementById('res-feedback-text').innerText = feedback;
+
+      showPracticeStep('results');
+    }
+
+    function renderProgress() {
+      const container = document.getElementById('progress-container');
+      if (practices.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white border border-[#1C1C1C]/10 rounded-3xl p-12 text-center space-y-3">
+            <h3 class="font-display text-lg font-bold">BELUM ADA DATA PROGRESS</h3>
+            <p class="text-xs text-[#6B6B6B]">Selesaikan latihan pertamamu untuk melihat grafik perkembangan bicaramu.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="bg-white border border-[#1C1C1C]/10 rounded-3xl p-8 space-y-6 shadow-sm">
+          <h3 class="font-display text-base font-bold">TREN KELANCARAN (FLUENCY SCORE %)</h3>
+          <div class="h-44 flex items-end gap-3 pt-6 border-b border-[#1C1C1C]/10 px-2 overflow-x-auto">
+            ${practices.slice(0, 10).reverse().map(p => `
+              <div class="flex-1 min-w-[32px] flex flex-col items-center gap-2 group">
+                <span class="text-[10px] font-mono text-[#6B6B6B] opacity-0 group-hover:opacity-100 transition">${p.fluency_score}%</span>
+                <div class="w-full bg-[#7A1E2C] rounded-t-lg transition-all duration-300" style="height: ${p.fluency_score}%"></div>
+                <span class="text-[9px] font-mono text-[#6B6B6B] truncate w-full text-center">
+                  ${new Date(p.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
+                </span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderHistory() {
+      const container = document.getElementById('history-container');
+      if (practices.length === 0) {
+        container.innerHTML = `<p class="text-sm text-[#6B6B6B] text-center py-8">Belum ada riwayat latihan.</p>`;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="divide-y divide-[#1C1C1C]/5">
+          ${practices.map((p, idx) => `
+            <div onclick="openModalDetail(${idx})" class="py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-[#F7F5F2]/50 px-4 rounded-xl transition cursor-pointer">
+              <div class="space-y-1">
+                <h3 class="font-display text-base font-bold text-[#1C1C1C]">${p.topic}</h3>
+                <div class="text-xs text-[#6B6B6B] flex items-center gap-3">
+                  <span>${new Date(p.created_at).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' })}</span>
+                  <span>•</span>
+                  <span>${formatTime(p.actual_duration)}</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-6">
+                <div class="text-right">
+                  <span class="text-xs font-mono font-bold text-[#7A1E2C]">${p.fluency_score}% Fluency</span>
+                  <span class="text-xs text-[#6B6B6B] block font-mono">${p.filler_words} Filler Words</span>
+                </div>
+                <svg class="w-5 h-5 text-[#6B6B6B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderProfile() {
+      if (!currentUser) return;
+      document.getElementById('prof-name').innerText = currentUser.name;
+      document.getElementById('prof-email').innerText = currentUser.email;
+      document.getElementById('prof-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
+
+      const conf = calculateConfidenceScore();
+      document.getElementById('prof-conf-score').innerText = `${conf}%`;
+      document.getElementById('prof-total-practices').innerText = practices.length;
+
+      const totalSec = practices.reduce((a, b) => a + (b.actual_duration || 0), 0);
+      document.getElementById('prof-total-time').innerText = formatTotalTime(totalSec);
+
+      const level = calculateLevel(practices.length);
+      document.getElementById('prof-level-badge').innerText = level;
+      document.getElementById('prof-level-title').innerText = level;
+
+      const steps = [
+        { label: "START", active: true },
+        { label: "SPEAK MORE", active: practices.length >= 5 },
+        { label: "THINK FASTER", active: practices.length >= 15 },
+        { label: "SPEAK CLEARLY", active: practices.length >= 30 },
+        { label: "CONFIDENT", active: practices.length >= 50 }
+      ];
+
+      document.getElementById('prof-journey-steps').innerHTML = steps.map(s => `
+        <div class="p-3 rounded-xl border text-xs font-mono font-bold transition ${s.active ? 'border-[#7A1E2C] bg-[#7A1E2C]/10 text-[#7A1E2C]' : 'border-[#1C1C1C]/10 text-[#6B6B6B] opacity-40'}">
+          ${s.label}
+        </div>
+      `).join('');
+    }
+
+    function openModalDetail(idx) {
+      const item = practices[idx];
+      if (!item) return;
+
+      document.getElementById('modal-topic').innerText = item.topic;
+      document.getElementById('modal-fluency').innerText = `${item.fluency_score}%`;
+      document.getElementById('modal-duration').innerText = formatTime(item.actual_duration);
+      document.getElementById('modal-transcript').innerText = `"${item.transcript}"`;
+
+      document.getElementById('modal-detail').classList.remove('hidden');
+    }
+
+    function closeModalDetail() {
+      document.getElementById('modal-detail').classList.add('hidden');
+    }
+
+    // --- HELPER UTILITIES ---
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60);
+      const s = seconds % 60;
+      return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function formatTotalTime(seconds) {
+      if (!seconds) return '0 min';
+      const mins = Math.floor(seconds / 60);
+      return `${mins} min`;
+    }
+  </script>
+</body>
+</html>
